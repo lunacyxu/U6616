@@ -1,30 +1,35 @@
 ---
-title: "hw1"
-author: "luna"
+title: "Empirical Exercise I - Data Exploration"
+author: "Lunaberry"
 date: "9/20/2020"
 output: html_document
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+1d) 
+library(readxl)
+library(tidyverse)
+col_names <- array(read_excel('U6616/HW1/epa_04_02_a.xlsx', skip=2, sheet = 1, n_max = 1, col_names = FALSE))
+df <- data.frame(read_excel('U6616/HW1/epa_04_02_a.xlsx', sheet = 1, skip = 4, col_names = FALSE, n_max=11))
+colnames(df) <- col_names
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+ggplot(df, aes(factor(Year), `Utility Total`, group = 1)) + geom_line() + geom_point()
 
-```{r cars}
-summary(cars)
+## Embedded Application
+
+It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+
+```{r tabsets, echo=FALSE}
+shinyAppDir(
+  system.file("examples/06_tabsets", package = "shiny"),
+  options = list(
+    width = "100%", height = 550
+  )
+)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
